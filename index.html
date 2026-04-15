@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红福人家系列产品使用教程</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e74c3c;
+            --secondary: #2c3e50;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 50%, #c0392b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 头部 */
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            color: #c0392b;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* 搜索框 */
+        .search-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(231,76,60,0.1);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        /* 分类标签 */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .category-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--light);
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .category-tab:hover {
+            background: #dfe6e9;
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .category-tab .count {
+            background: rgba(255,255,255,0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-size: 0.85rem;
+        }
+
+        .category-tab.active .count {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* 统计信息 */
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, var(--primary), #c0392b);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-item.secondary {
+            background: linear-gradient(135deg, var(--secondary), #1a252f);
+        }
+
+        .stat-item.accent {
+            background: linear-gradient(135deg, var(--accent), #d68910);
+        }
+
+        /* 产品卡片网格 */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 产品卡片 */
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-card.hidden {
+            display: none;
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header.malaxiangguo { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        .card-header.kaoyu { background: linear-gradient(135deg, #f39c12, #d68910); color: white; }
+        .card-header.zhi baoyu { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; }
+        .card-header.huoguo { background: linear-gradient(135deg, #e67e22, #d35400); color: white; }
+        .card-header.xiaolongxia { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        .card-header.yutiaoliao { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+        .card-header.luniang { background: linear-gradient(135deg, #1abc9c, #16a085); color: white; }
+        .card-header.mbzhiwu { background: linear-gradient(135deg, #34495e, #2c3e50); color: white; }
+        .card-header.qita { background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .product-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.25);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .dosage-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .dosage-info strong {
+            color: var(--secondary);
+        }
+
+        .steps-title {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .steps-content {
+            background: #fefefe;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .steps-content ol {
+            padding-left: 20px;
+        }
+
+        .steps-content li {
+            margin-bottom: 10px;
+        }
+
+        .steps-content strong {
+            color: var(--primary);
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd);
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+
+        .tips-box .title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tips-box ul {
+            margin: 0;
+            padding-left: 18px;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+
+        .tips-box li {
+            margin-bottom: 4px;
+        }
+
+        /* 无结果 */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        .no-results .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .no-results h3 {
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .no-results p {
+            color: #7f8c8d;
+        }
+
+        /* 弹窗详情 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 24px;
+            background: linear-gradient(135deg, var(--primary), #c0392b);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        .modal-header h2 {
+            margin-bottom: 4px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #fecaca;
+            opacity: 0.9;
+        }
+
+        /* 打印样式 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .header, .product-card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            .category-tabs, .search-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>🏮 红福人家系列产品使用教程</h1>
+            <p class="subtitle">一站式检索 · 操作步骤详解 · 科学配比参考</p>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索产品名称或操作步骤...">
+                </div>
+            </div>
+
+            <div class="category-tabs" id="categoryTabs">
+                <button class="category-tab active" data-category="all">
+                    全部<span class="count">48</span>
+                </button>
+                <button class="category-tab" data-category="kaoyu">
+                    烤鱼<span class="count">9</span>
+                </button>
+                <button class="category-tab" data-category="zhi baoyu">
+                    纸包鱼<span class="count">2</span>
+                </button>
+                <button class="category-tab" data-category="malaxiangguo">
+                    麻辣香锅<span class="count">1</span>
+                </button>
+                <button class="category-tab" data-category="huoguo">
+                    火锅<span class="count">5</span>
+                </button>
+                <button class="category-tab" data-category="xiaolongxia">
+                    小龙虾/虾<span class="count">4</span>
+                </button>
+                <button class="category-tab" data-category="yutiaoliao">
+                    鱼调料<span class="count">5</span>
+                </button>
+                <button class="category-tab" data-category="luniang">
+                    卤/凉菜<span class="count">5</span>
+                </button>
+                <button class="category-tab" data-category="mbzhiwu">
+                    冒菜/麻辣烫<span class="count">2</span>
+                </button>
+                <button class="category-tab" data-category="qita">
+                    其他<span class="count">15</span>
+                </button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <span>📦</span>
+                    <span>共 <strong>48</strong> 种产品</span>
+                </div>
+                <div class="stat-item secondary">
+                    <span>✅</span>
+                    <span><strong>45</strong> 种含详细步骤</span>
+                </div>
+                <div class="stat-item accent">
+                    <span>🔍</span>
+                    <span>已显示 <strong id="visibleCount">48</strong> 种</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 产品列表 -->
+        <div class="products-grid" id="productsGrid">
+            <!-- 产品卡片将通过 JavaScript 动态生成 -->
+        </div>
+
+        <!-- 无结果提示 -->
+        <div class="no-results" id="noResults">
+            <div class="icon">🔍</div>
+            <h3>未找到匹配的产品</h3>
+            <p>请尝试其他关键词或分类筛选</p>
+        </div>
+
+        <!-- 弹窗 -->
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                    <h2 id="modalTitle">产品名称</h2>
+                    <p id="modalCategory">分类</p>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- 内容 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>数据来源：产品操作明细表 | 最后更新：2026年4月</p>
+        </div>
+    </div>
+
+    <script>
+        // 产品数据
+        const productsData = [
+            {
+                name: "香辣烤鱼180",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "180g 烤鱼底料 + 3斤左右的鱼",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>将3斤左右的鱼用刀剖开背部，自备藕片、土豆、洋葱丝、鲜红椒等素菜约1斤，切好备用。</li>
+                    <li><strong>腌鱼：</strong>将鱼抹上料酒、食用盐、胡椒粉、少许葱丝、姜片，抹匀后<strong>腌制10分钟</strong>。</li>
+                    <li><strong>烤鱼：</strong>将素菜水煮或油炸至<strong>八成熟</strong>，铺在容器中。用烤箱(炭烤亦可)或者油炸将鱼烤熟后放在素菜上。</li>
+                    <li><strong>出餐：</strong>锅中放植物油100g左右，烧至<strong>八成熟</strong>，放入少量葱姜蒜爆香，加入180g本调料下锅小火炒香，再加<strong>270ml清水</strong>煮沸，淋在鱼和菜的表面，撒上葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 油温判断：筷子插入冒小泡即可（约170℃）</li>
+                    <li>🐟 鱼选草鱼或黑鱼，肉质不易散</li>
+                    <li>🥬 配菜可加豆芽、芹菜段、金针菇</li>
+                    <li>⚠️ 腌鱼时间不宜过长，否则肉质变柴</li>
+                </ul>`
+            },
+            {
+                name: "蒜香烤鱼（微辣）180",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "180g 烤鱼底料 + 2斤左右的鱼",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>将2斤左右的鱼清理干净，自备蒜蓉50g、藕片、土豆、洋葱丝等素菜1斤左右。</li>
+                    <li><strong>腌鱼：</strong>将鱼抹上料酒、少许盐，腌制<strong>10-15分钟</strong>。</li>
+                    <li><strong>烤鱼：</strong>将素菜水煮或油炸至八成熟铺底，鱼烤熟后放素菜上，表面均匀涂抹本调料。</li>
+                    <li><strong>出餐：</strong>锅中放植物油80g烧热，爆香蒜蓉，加入180g调料炒香，加<strong>250ml清水</strong>煮沸，淋在鱼表面，撒葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🧄 蒜香浓郁，微辣口感，适合不吃辣人群</li>
+                    <li>🐟 建议用罗非鱼或清江鱼，肉质更嫩</li>
+                    <li>💡 可根据口味增减蒜蓉用量</li>
+                </ul>`
+            },
+            {
+                name: "豆豉烤鱼180",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "180g 烤鱼底料 + 3斤左右的鱼",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>将3斤左右的鱼清理干净，用刀在背上划开，自备藕片、洋葱丝、鲜红椒切段。</li>
+                    <li><strong>腌鱼：</strong>将鱼抹上料酒、食用盐、少许葱丝、姜丝，腌制<strong>15分钟</strong>。</li>
+                    <li><strong>烤鱼：</strong>用烤架将腌制后的鱼放炭火上烤，烤干水分后涮上菜油继续烤熟后装入容器中。</li>
+                    <li><strong>出餐：</strong>锅中放植物油100g左右，烧至八成熟，将备好的蔬菜炒段生，再加入本调料一起炒后淋在食物的表面上，撒上葱花或香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🫘 豆豉咸香浓郁，无需额外加盐</li>
+                    <li>🔥 炭烤风味更佳，油炸也可替代</li>
+                    <li>🥬 配菜推荐：洋葱、芹菜、藕片</li>
+                </ul>`
+            },
+            {
+                name: "麻辣烤鱼180",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "180g 烤鱼底料 + 2-3斤的鱼",
+                steps: `<ol>
+                    <li><strong>备鱼：</strong>将2-3斤的鱼洗净，加料酒、少量淀粉腌制<strong>15-20分钟</strong>。</li>
+                    <li><strong>备菜：</strong>将自己喜欢的素菜切好洗净，放入锅中<strong>炸熟</strong>捞出备用。</li>
+                    <li><strong>烤鱼：</strong>将腌制好的鱼放入油锅制后放入烤盘备用。</li>
+                    <li><strong>出餐：</strong>锅内放油加热后放入烤鱼料小火炒香，加<strong>300ml清水</strong>烧开，起锅均匀淋在食物表面，撒上葱花或香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌶️ 麻辣过瘾，花椒辣椒比例已调好</li>
+                    <li>🐟 建议用草鱼或黑鱼，刺少肉厚</li>
+                    <li>🔥 可根据口味加干辣椒节增辣</li>
+                </ul>`
+            },
+            {
+                name: "孜然烤鱼180",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "180g 烤鱼底料 + 2-3斤的鱼",
+                steps: `<ol>
+                    <li><strong>备鱼：</strong>将2-3斤的鱼洗净，加料酒、少量淀粉腌制<strong>15-20分钟</strong>。</li>
+                    <li><strong>备菜：</strong>将自己喜欢的素菜切好洗净，放入锅中<strong>炸熟</strong>捞出备用。</li>
+                    <li><strong>烤鱼：</strong>将腌制好的鱼放入油锅制后放入烤盘备用。</li>
+                    <li><strong>出餐：</strong>锅内放油加热后放入烤鱼料小火炒香，加<strong>300ml清水</strong>烧开，起锅均匀淋在食物表面，撒上葱花或香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 孜然香气浓郁，适合羊肉串爱好者</li>
+                    <li>🐟 配菜可加土豆片、藕片、豆腐皮</li>
+                    <li>💡 可撒孜然粒增香</li>
+                </ul>`
+            },
+            {
+                name: "蒜香不辣烤鱼120",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "120g 烤鱼底料 + 1.5斤左右的鱼",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>将1.5斤左右的鱼用刀剖开背部，自备藕片、土豆、洋葱丝、鲜红椒等素菜1斤左右，切好备用。</li>
+                    <li><strong>腌鱼：</strong>将鱼抹上料酒、食用盐、胡椒粉、少许葱丝、姜片，抹匀后腌制<strong>10分钟</strong>。</li>
+                    <li><strong>烤鱼：</strong>将素菜水煮或油炸至<strong>八成熟</strong>，铺在容器中，用烤箱(炭烤亦可)或者油炸将鱼烤熟后放素菜上。</li>
+                    <li><strong>出餐：</strong>锅中放植物油80g左右，烧至八成熟，放入少量葱姜蒜爆香，加入120g本调料下锅小火炒香，再加<strong>250ml清水</strong>煮沸，淋在鱼和菜的表面，撒上葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🧄 纯蒜香风味，完全不辣，适合儿童和老人</li>
+                    <li>📉 用量比180g版本少，按比例缩减</li>
+                    <li>💡 可加柠檬汁去腥增鲜</li>
+                </ul>`
+            },
+            {
+                name: "孜然烤鱼120",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "120g 烤鱼底料 + 1.5斤左右的鱼",
+                steps: `<ol>
+                    <li><strong>备鱼：</strong>将1.5斤左右的鱼洗净，加料酒、少许盐腌制<strong>10-15分钟</strong>。</li>
+                    <li><strong>备菜：</strong>将素菜（藕片、土豆片等）水煮或油炸至八成熟备用。</li>
+                    <li><strong>烤鱼：</strong>将鱼烤熟或炸熟，放在配菜上。</li>
+                    <li><strong>出餐：</strong>锅中放油烧热，加入120g调料和250ml水煮沸，淋在鱼和菜上，撒葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 孜然风味，适合不吃辣的人群</li>
+                    <li>📉 小份量版本，适合1-2人食用</li>
+                </ul>`
+            },
+            {
+                name: "泡椒烤鱼200",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "200g 烤鱼底料 + 2-3斤的鱼",
+                steps: `<ol>
+                    <li><strong>腌鱼：</strong>准备2-3斤的食材，鱼去鳞从背部剖开洗净，用姜葱20g、料酒20g、盐5g、胡椒10g，腌制<strong>5-10分钟</strong>。可选用碳烤、油炸、烤箱三种方式之一将鱼烤熟。</li>
+                    <li><strong>备菜：</strong>土豆、藕去皮切片，放入锅中<strong>煮熟</strong>捞出放入烤鱼盘里，然后将烤好的鱼放在配菜上，撒上辣椒、芝麻、葱段。</li>
+                    <li><strong>出餐：</strong>锅中下油烧热，放入葱姜蒜，将<strong>200g的调料</strong>放入锅中炒香，加入<strong>400g左右的水</strong>烧开做料汁，浇在烤好的鱼上，撒上葱花、香菜、蒜末、小米辣即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍋 泡椒酸辣开胃，独特风味</li>
+                    <li>🌶️ 可加泡椒段增加酸度</li>
+                    <li>💡 泡椒汁水可多留，增香提鲜</li>
+                </ul>`
+            },
+            {
+                name: "青花椒烤鱼200",
+                category: "kaoyu",
+                categoryName: "烤鱼",
+                dosage: "200g 烤鱼底料 + 2-3斤的鱼",
+                steps: `<ol>
+                    <li><strong>腌鱼：</strong>准备2-3斤的食材，鱼去鳞从背部剖开洗净，用姜葱20g、料酒20g、盐5g、胡椒10g，腌制<strong>5-10分钟</strong>。可选用碳烤、油炸、烤箱三种方式之一将鱼烤熟。</li>
+                    <li><strong>备菜：</strong>土豆、藕去皮切片，放入锅中<strong>煮熟</strong>捞出放入烤鱼盘里，然后将烤好的鱼放在配菜上，撒上辣椒、芝麻、葱段。</li>
+                    <li><strong>出餐：</strong>锅中下油烧热，放入葱姜蒜，将<strong>200g的调料</strong>放入锅中炒香，加入<strong>400g左右的水</strong>烧开做料汁，浇在烤好的鱼上，撒上葱花、香菜、蒜末、小米辣即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 青花椒麻香清新，麻而不苦</li>
+                    <li>🍃 比红花椒更清香，适合怕麻人群</li>
+                    <li>💡 可加新鲜青花椒粒增麻</li>
+                </ul>`
+            },
+            {
+                name: "麻辣香锅50g",
+                category: "malaxiangguo",
+                categoryName: "麻辣香锅",
+                dosage: "50g 调料 + 250g荤菜 + 500g素菜",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>50g麻辣香锅调料配<strong>250g左右的荤菜</strong>（肉类、虾等）洗净用油炸熟；<strong>500g素菜</strong>（蔬菜、土豆、藕片、黄瓜等）用开水煮<strong>八分熟</strong>，捞起备用。</li>
+                    <li><strong>炒制：</strong>将锅烧热，放入植物油100g左右，放入辣椒节、葱、姜、蒜爆香后，放入本调料<strong>50g</strong>翻炒。</li>
+                    <li><strong>出餐：</strong>再将备好的食物倒入锅中<strong>爆炒至香味溢出</strong>，起锅装入容器内，撒上葱花、香菜即可食用。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 用量精准，50g适合2-3人份</li>
+                    <li>🥬 素菜八分熟即可，避免炒制时过软</li>
+                    <li>🍖 荤菜炸至金黄，口感更佳</li>
+                    <li>💡 可加年糕、午餐肉增加丰富度</li>
+                </ul>`
+            },
+            {
+                name: "毛血旺160g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "160g 底料 + 约3kg配菜",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>160g底料搭配约<strong>3kg</strong>的菜：自备猪血1kg左右、黄喉300g、毛肚400g、豆芽250g、青笋丝300g，清洗干净备用。</li>
+                    <li><strong>煮汤底：</strong>先将锅置于旺火上放入100g左右植物油，烧至八成熟，取出调料轻炒几下，加<strong>800g水或高汤</strong>烧沸。</li>
+                    <li><strong>烫菜：</strong>先将准备好的猪血倒入锅中，<strong>八分熟后</strong>再加入黄喉、毛肚和素菜，煮熟起锅盛入容器内。</li>
+                    <li><strong>激香：</strong>取出麻辣包撒在食物表面，锅里放入植物油150g烧至<strong>冒青烟</strong>时，将油淋在上面，撒上葱花和香菜即可食用。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 油温判断：冒青烟时约200℃</li>
+                    <li>🥩 毛肚涮7秒即可，不要烫太久</li>
+                    <li>🩸 猪血切成小块，更易入味</li>
+                    <li>💡 可加鸭血、午餐肉增加丰富度</li>
+                </ul>`
+            },
+            {
+                name: "酸汤肥牛220g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "220g 调料 + 500g肥牛 + 500g蔬菜",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>220g酸汤肥牛调料搭配约<strong>1kg</strong>的菜：准备好500g的肥牛和500g的蔬菜（金针菇、莴笋等）。</li>
+                    <li><strong>焯菜：</strong>将准备好的金针菇和莴笋分别<strong>焯水</strong>后，捞出放入碗中。</li>
+                    <li><strong>煮汤：</strong>锅中加入<strong>清水500g</strong>，倒入100g调料煮沸，肥牛片下锅煮熟（约<strong>3分钟</strong>左右）。</li>
+                    <li><strong>出餐：</strong>将煮好后的肥牛片，倒入装有金针菇和莴笋的碗中，撒上青红椒圈即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍋 酸汤开胃，肥牛嫩滑</li>
+                    <li>🥩 肥牛片不要太厚，易熟透</li>
+                    <li>⏱️ 肥牛煮至变色即可，不要煮老</li>
+                    <li>💡 可加酸萝卜丝增酸</li>
+                </ul>`
+            },
+            {
+                name: "水煮肉片",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "100g 底料 + 300g肉",
+                steps: `<ol>
+                    <li><strong>腌肉：</strong>肉切薄片，用清水冲去血水，加入腌肉包，分次揉入<strong>淀粉水</strong>，沥干备用。</li>
+                    <li><strong>炒底料：</strong>锅中倒油，油热后放入调料包中的底料，小火炒出<strong>红油香味</strong>。</li>
+                    <li><strong>煮菜：</strong>加适量清水或高汤烧开，放入青菜、豆芽煮熟，<strong>捞出铺在碗底</strong>。</li>
+                    <li><strong>烫肉：</strong>汤保持微沸，逐片下入肉片，用筷子轻轻划散，煮至肉片<strong>变色熟透</strong>。</li>
+                    <li><strong>激香：</strong>连汤带肉倒入碗中，撒上蒜末、葱花，淋上调料包中的<strong>干椒花椒包</strong>，浇一勺<strong>热油</strong>激香即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 肉片要薄，2-3mm最佳</li>
+                    <li>🥢 烫肉时火不宜太大，保持微沸</li>
+                    <li>🌶️ 最后热油激香是灵魂步骤</li>
+                    <li>💡 可加豆芽、莴笋、生菜铺底</li>
+                </ul>`
+            },
+            {
+                name: "香辣纸包鱼200g",
+                category: "zhi baoyu",
+                categoryName: "纸包鱼",
+                dosage: "200g 底料 + 约2斤鱼",
+                steps: `<ol>
+                    <li><strong>备鱼：</strong>将准备好的鱼洗净，在鱼身和鱼腹加入<strong>食盐和料酒少许</strong>码匀腌制十几分钟。</li>
+                    <li><strong>包裹：</strong>把鱼肉部分朝下放在<strong>油纸</strong>上，然后将本调料抹在鱼的表面上，倒入<strong>100g植物油</strong>。</li>
+                    <li><strong>烤制：</strong>合上纸，<strong>大火烤10-12分钟</strong>后，改为中火将鱼烤熟。</li>
+                    <li><strong>出餐：</strong>鱼熟后打开纸均匀撒上葱花、香菜、蒜蓉即可享受美味。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>📄 油纸和烤鱼盘接触表面要放少许油以传热</li>
+                    <li>⚠️ 避免温度太高烫坏油纸</li>
+                    <li>🔥 香辣过瘾，适合重口味爱好者</li>
+                    <li>💡 可根据锅具调整烤制时间</li>
+                </ul>`
+            },
+            {
+                name: "蒜香纸包鱼180",
+                category: "zhi baoyu",
+                categoryName: "纸包鱼",
+                dosage: "180g 底料 + 约2斤鱼 + 蒜蓉50g",
+                steps: `<ol>
+                    <li><strong>备鱼：</strong>将鱼洗净，在鱼身和鱼腹加入<strong>食盐和料酒少许</strong>码匀腌制十几分钟。</li>
+                    <li><strong>备蒜：</strong>准备蒜蓉50g左右，一半炒香用，一半生蒜最后加。</li>
+                    <li><strong>包裹：</strong>把鱼肉部分朝下放在<strong>油纸</strong>上，将蒜蓉和本调料抹在鱼的表面上，倒入<strong>100g植物油</strong>。</li>
+                    <li><strong>烤制：</strong>合上纸，<strong>大火烤10-12分钟</strong>后改为中火烤熟。</li>
+                    <li><strong>出餐：</strong>鱼熟后打开纸，撒上剩余生蒜蓉、葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🧄 双重蒜香：炒香+生蒜，层次丰富</li>
+                    <li>📄 油纸包裹锁住水分，鱼肉更嫩</li>
+                    <li>💡 适合不吃辣的人群</li>
+                </ul>`
+            },
+            {
+                name: "油焖大虾400g",
+                category: "xiaolongxia",
+                categoryName: "小龙虾/虾",
+                dosage: "400g 底料 + 3斤小龙虾",
+                steps: `<ol>
+                    <li><strong>处理虾：</strong>小龙虾剪去虾头尖、去虾线，用牙刷刷洗干净，沥干水分。</li>
+                    <li><strong>炸虾：</strong>锅中放500g植物油，烧至<strong>七成热</strong>（油面微微冒烟），倒入小龙虾<strong>大火炸1-2分钟</strong>至虾身变红卷曲，立即捞出控油。</li>
+                    <li><strong>炒底料：</strong>锅中倒出多余油，留<strong>200g底油</strong>，烧至六成热，倒入整包调料，小火慢炒<strong>1-2分钟</strong>至香气完全释放。</li>
+                    <li><strong>焖煮：</strong>倒入炸好的小龙虾，大火翻炒1分钟裹匀底料；加入<strong>600-800ml啤酒</strong>（没过小龙虾2/3即可），大火烧开后转<strong>中火焖煮4-5分钟</strong>。</li>
+                    <li><strong>收汁：</strong>开盖转<strong>大火收汁1分钟</strong>（汤汁浓稠挂虾），撒上葱花，关火<strong>浸泡5分钟</strong>即可装盘。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍺 啤酒优先于清水，去腥增香</li>
+                    <li>⚠️ 不要用料酒腌制，本品已含去腥成分</li>
+                    <li>🦐 炸虾宁短勿长，炸久了肉会发柴</li>
+                    <li>⏱️ 关火后浸泡5-10分钟，入味度提升3倍</li>
+                </ul>`
+            },
+            {
+                name: "香辣花甲",
+                category: "xiaolongxia",
+                categoryName: "小龙虾/虾",
+                dosage: "按口味添加调料",
+                steps: `<ol>
+                    <li><strong>吐沙：</strong>花甲提前用盐水浸泡<strong>2-3小时</strong>，让其吐尽泥沙。</li>
+                    <li><strong>清洗：</strong>花甲清洗干净，沥干水分。</li>
+                    <li><strong>爆炒：</strong>锅中放油烧热，加入葱姜蒜、干辣椒爆香，倒入花甲大火翻炒。</li>
+                    <li><strong>调味：</strong>加入适量调料，翻炒均匀，加少许水焖煮<strong>2-3分钟</strong>至花甲开口。</li>
+                    <li><strong>出餐：</strong>撒上香菜、葱花即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🐚 花甲开口即熟，不要煮太久</li>
+                    <li>💧 加水不要太多，少许即可</li>
+                    <li>🌶️ 可根据口味增减辣椒用量</li>
+                </ul>`
+            },
+            {
+                name: "香辣龙虾150g",
+                category: "xiaolongxia",
+                categoryName: "小龙虾/虾",
+                dosage: "150g 底料 + 2斤小龙虾",
+                steps: `<ol>
+                    <li><strong>处理虾：</strong>小龙虾去虾线、刷洗干净，沥干备用。</li>
+                    <li><strong>炸制：</strong>油温七成热，炸至<strong>变色卷曲</strong>，捞出备用。</li>
+                    <li><strong>炒料：</strong>锅中留底油，小火炒香调料，加入炸好的小龙虾翻炒均匀。</li>
+                    <li><strong>焖煮：</strong>加入<strong>500ml啤酒</strong>，大火烧开后转中小火焖煮<strong>4-5分钟</strong>。</li>
+                    <li><strong>收汁：</strong>大火收汁，撒葱花出锅。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 香辣浓郁，小份量版本</li>
+                    <li>🍺 啤酒去腥提鲜</li>
+                    <li>💡 适合2-3人份</li>
+                </ul>`
+            },
+            {
+                name: "小龙虾",
+                category: "xiaolongxia",
+                categoryName: "小龙虾/虾",
+                dosage: "标准装 + 3斤鲜活小龙虾",
+                steps: `<ol>
+                    <li><strong>预处理：</strong>小龙虾剪去虾头尖、去虾线，用牙刷刷洗干净，沥干水分（无需用料酒腌制）。</li>
+                    <li><strong>过油锁汁：</strong>锅中放500g植物油，烧至<strong>七成热</strong>，倒入小龙虾<strong>大火炸1-2分钟</strong>，立即捞出控油。</li>
+                    <li><strong>炒香底料：</strong>锅中留<strong>200g底油</strong>，烧至六成热，倒入整包调料，小火慢炒<strong>1-2分钟</strong>至香气完全释放。</li>
+                    <li><strong>焖煮入味：</strong>倒入小龙虾大火翻炒1分钟裹匀底料；加入<strong>600-800ml啤酒</strong>，大火烧开后转<strong>中火焖煮4-5分钟</strong>。</li>
+                    <li><strong>收汁出锅：</strong>开盖大火收汁1分钟，撒上葱花，关火<strong>浸泡5分钟</strong>即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍺 <strong>啤酒优先于清水</strong>：去腥增香，肉质更嫩</li>
+                    <li>⚠️ <strong>绝对不要额外加基础调料</strong>：本品已科学配比所有咸甜鲜香料</li>
+                    <li>🦐 <strong>炸虾宁短勿长</strong>：油温够高快速过油，炸久了虾肉会发柴发面</li>
+                    <li>⏱️ <strong>焖煮后必静置</strong>：关火后不要立即出锅，浸泡5-10分钟，入味度提升3倍</li>
+                    <li>💡 受潮结块不影响使用，炒时用铲子压散即可</li>
+                </ul>`
+            },
+            {
+                name: "冒菜料260g",
+                category: "mbzhiwu",
+                categoryName: "冒菜/麻辣烫",
+                dosage: "260g 底料（冒菜锅底+冒菜碗底）",
+                steps: `<ol>
+                    <li><strong>准备食材：</strong>自备各种荤素食材（丸子、肉片、豆制品、蔬菜等），洗净切好备用。</li>
+                    <li><strong>煮汤底：</strong>锅中加水烧开，加入<strong>冒菜锅底料</strong>搅匀。</li>
+                    <li><strong>烫菜：</strong>按食材成熟时间先后下锅，<strong>先荤后素</strong>，烫熟后捞入碗中。</li>
+                    <li><strong>出餐：</strong>碗底加入<strong>冒菜碗底料</strong>，将烫好的食材盛入，撒上葱花、香菜、蒜末，淋上红油即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍲 冒菜是成都特色，麻辣鲜香</li>
+                    <li>🥬 素菜最后烫，保持脆嫩</li>
+                    <li>💡 可根据口味调整麻度和辣度</li>
+                </ul>`
+            },
+            {
+                name: "烧鸡公160g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "160g 底料 + 1只公鸡（约2-3斤）",
+                steps: `<ol>
+                    <li><strong>处理鸡：</strong>公鸡剁成小块，用清水浸泡去除血水，沥干备用。</li>
+                    <li><strong>煸炒：</strong>锅中放油烧热，下入鸡块大火煸炒至<strong>水分收干、鸡皮微焦</strong>。</li>
+                    <li><strong>调味：</strong>加入葱姜蒜、干辣椒、花椒炒香，倒入<strong>160g调料</strong>继续翻炒。</li>
+                    <li><strong>焖煮：</strong>加入适量清水或啤酒，大火烧开后转<strong>小火焖煮20-30分钟</strong>。</li>
+                    <li><strong>收汁：</strong>大火收汁，撒上葱花即可出锅。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍗 烧鸡公是重庆特色菜</li>
+                    <li>🌶️ 麻辣鲜香，鸡肉紧实入味</li>
+                    <li>💡 可加土豆、魔芋等配菜</li>
+                </ul>`
+            },
+            {
+                name: "大盘鸡160g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "160g 底料 + 半只鸡 + 土豆",
+                steps: `<ol>
+                    <li><strong>备料：</strong>鸡肉剁块，土豆切块备用。</li>
+                    <li><strong>煸炒：</strong>锅中放油，下入鸡块煸炒至变色。</li>
+                    <li><strong>调味：</strong>加入<strong>160g调料</strong>、葱姜蒜、干辣椒翻炒均匀。</li>
+                    <li><strong>焖煮：</strong>加入适量水，大火烧开后加土豆，转<strong>小火焖煮20分钟</strong>。</li>
+                    <li><strong>出餐：</strong>拌入手擀面，翻炒均匀即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍗 大盘鸡是新疆特色</li>
+                    <li>🍜 配上皮带面更地道</li>
+                    <li>💡 可加青红椒增加色彩</li>
+                </ul>`
+            },
+            {
+                name: "黄焖鸡120g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "120g 底料 + 鸡肉 + 香菇",
+                steps: `<ol>
+                    <li><strong>备料：</strong>鸡肉切块，香菇泡发切块。</li>
+                    <li><strong>煸炒：</strong>锅中放油，下入鸡块煸炒至微黄。</li>
+                    <li><strong>焖制：</strong>加入<strong>120g调料</strong>、香菇，加适量水大火烧开。</li>
+                    <li><strong>小火焖：</strong>转<strong>小火焖15-20分钟</strong>至鸡肉熟透。</li>
+                    <li><strong>收汁：</strong>大火收汁，撒葱花即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍗 黄焖鸡口感鲜嫩</li>
+                    <li>🍄 香菇是经典搭配</li>
+                    <li>💡 可加土豆、青椒</li>
+                </ul>`
+            },
+            {
+                name: "香水鱼调料",
+                category: "yutiaoliao",
+                categoryName: "鱼调料",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>处理鱼：</strong>鱼洗净切块，用料酒、盐、淀粉腌制<strong>10-15分钟</strong>。</li>
+                    <li><strong>炒底料：</strong>锅中放油，烧热后加入<strong>香水鱼调料</strong>炒香。</li>
+                    <li><strong>加水煮：</strong>加入适量清水或高汤，大火烧开。</li>
+                    <li><strong>烫鱼：</strong>将鱼块轻轻放入，煮<strong>3-5分钟</strong>至熟透。</li>
+                    <li><strong>出餐：</strong>撒上葱花、香菜，淋上热油即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🐟 香水鱼讲究香气扑鼻</li>
+                    <li>🌿 香料层次丰富</li>
+                    <li>💡 鱼片切薄更易入味</li>
+                </ul>`
+            },
+            {
+                name: "藤椒鱼调料",
+                category: "yutiaoliao",
+                categoryName: "鱼调料",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>处理鱼：</strong>鱼洗净切片，用料酒、盐、淀粉腌制。</li>
+                    <li><strong>煮汤底：</strong>锅中加水烧开，加入<strong>藤椒鱼调料</strong>煮出香味。</li>
+                    <li><strong>烫鱼片：</strong>将鱼片轻轻滑入，<strong>煮至变色熟透</strong>后捞出。</li>
+                    <li><strong>激香：</strong>撒上鲜花椒、葱花，淋上<strong>热油</strong>激香。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 藤椒麻香清新</li>
+                    <li>🍃 比藤椒更清香</li>
+                    <li>💡 可加青红椒圈配色</li>
+                </ul>`
+            },
+            {
+                name: "酸菜鱼调料180",
+                category: "yutiaoliao",
+                categoryName: "鱼调料",
+                dosage: "180g 底料 + 2-3斤鱼",
+                steps: `<ol>
+                    <li><strong>处理鱼：</strong>鱼片用料酒、盐、淀粉<strong>抓匀腌制</strong>。</li>
+                    <li><strong>炒酸菜：</strong>锅中放油，下入酸菜、泡椒、姜蒜炒香。</li>
+                    <li><strong>煮汤：</strong>加入<strong>180g调料</strong>和适量水，大火烧开。</li>
+                    <li><strong>烫鱼：</strong>将鱼片<strong>一片片</strong>下入，煮至变色熟透。</li>
+                    <li><strong>出餐：</strong>盛入碗中，撒上葱花，淋上热油。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍋 酸菜开胃，鱼肉嫩滑</li>
+                    <li>🐟 建议用黑鱼或草鱼</li>
+                    <li>💡 鱼片不要煮太久</li>
+                </ul>`
+            },
+            {
+                name: "麻辣鱼调料",
+                category: "yutiaoliao",
+                categoryName: "鱼调料",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>处理鱼：</strong>鱼切片或切块，腌制去腥。</li>
+                    <li><strong>炒底料：</strong>锅中放油，小火炒香<strong>麻辣鱼调料</strong>。</li>
+                    <li><strong>加水煮：</strong>加入清水烧开，下入鱼块煮熟。</li>
+                    <li><strong>出餐：</strong>撒葱花、香菜，淋热油即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌶️ 麻辣过瘾</li>
+                    <li>🐟 鱼块比鱼片更耐煮</li>
+                </ul>`
+            },
+            {
+                name: "红烧鱼调料160",
+                category: "yutiaoliao",
+                categoryName: "鱼调料",
+                dosage: "160g 底料 + 1-2斤鱼",
+                steps: `<ol>
+                    <li><strong>处理鱼：</strong>鱼洗净，两面划几刀，用料酒腌制去腥。</li>
+                    <li><strong>煎鱼：</strong>锅中放油，将鱼<strong>两面煎至金黄</strong>。</li>
+                    <li><strong>红烧：</strong>加入<strong>160g调料</strong>、葱姜蒜，加适量水大火烧开。</li>
+                    <li><strong>收汁：</strong>转中小火焖煮<strong>10-15分钟</strong>，大火收汁即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍳 煎鱼时不要急于翻面</li>
+                    <li>🐟 红烧风味，酱香浓郁</li>
+                    <li>💡 可加豆腐、鹌鹑蛋</li>
+                </ul>`
+            },
+            {
+                name: "美蛙鱼火锅350",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "350g（美蛙底料+美蛙油料）",
+                steps: `<ol>
+                    <li><strong>备料：</strong>牛蛙剁块、鱼切片，洗净备用。</li>
+                    <li><strong>煮汤底：</strong>锅中加水，放入<strong>美蛙底料</strong>烧开。</li>
+                    <li><strong>烫料：</strong>先下鱼片煮<strong>1-2分钟</strong>，再下牛蛙煮<strong>3-4分钟</strong>。</li>
+                    <li><strong>出餐：</strong>盛入火锅盆，淋上<strong>美蛙油料</strong>，撒葱花即可边涮边吃。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🐸 美蛙鱼头是经典组合</li>
+                    <li>🔥 麻辣鲜香，越煮越入味</li>
+                    <li>💡 可加各种涮菜</li>
+                </ul>`
+            },
+            {
+                name: "麻婆豆腐42g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "42g 底料 + 嫩豆腐1盒",
+                steps: `<ol>
+                    <li><strong>备料：</strong>豆腐切小块，肉末备用。</li>
+                    <li><strong>炒肉末：</strong>锅中放油，下入肉末炒散至变色。</li>
+                    <li><strong>调味：</strong>加入<strong>42g麻婆豆腐调料</strong>翻炒均匀。</li>
+                    <li><strong>焖煮：</strong>加入适量水，下入豆腐小火焖煮<strong>3-5分钟</strong>。</li>
+                    <li><strong>出餐：</strong>撒花椒粉、葱花，淋热油即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌶️ 麻、辣、烫、鲜、香</li>
+                    <li>🧈 可加少许肉末增香</li>
+                    <li>💡 豆腐轻推不要搅动</li>
+                </ul>`
+            },
+            {
+                name: "串串香调料400g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "400g（串串香底料+串串香油料）",
+                steps: `<ol>
+                    <li><strong>准备食材：</strong>各种荤素食材穿成串。</li>
+                    <li><strong>煮锅底：</strong>锅中加水，放入<strong>串串香底料</strong>烧开。</li>
+                    <li><strong>涮串：</strong>将串串放入锅中涮熟，<strong>先荤后素</strong>。</li>
+                    <li><strong>蘸料：</strong>碗中加入<strong>串串香油料</strong>作为蘸碟。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍢 串串香是成都小吃</li>
+                    <li>🔥 边涮边吃，热闹有趣</li>
+                    <li>💡 油碟是灵魂蘸料</li>
+                </ul>`
+            },
+            {
+                name: "香辣钵钵鸡300g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "300g 底料 + 各种煮熟的食材",
+                steps: `<ol>
+                    <li><strong>煮食材：</strong>将鸡爪、鸡肉、各种蔬菜煮熟，穿成串或切成块。</li>
+                    <li><strong>调红油汤：</strong>盆中加入<strong>300g香辣钵钵鸡调料</strong>，加入适量凉开水或高汤调匀。</li>
+                    <li><strong>浸泡：</strong>将煮好的食材放入汤中<strong>浸泡30分钟以上</strong>入味。</li>
+                    <li><strong>出餐：</strong>撒上芝麻、葱花，带汤上桌。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍗 钵钵鸡是乐山特色</li>
+                    <li>⏱️ 浸泡时间越长越入味</li>
+                    <li>🌶️ 冷吃热吃皆可</li>
+                </ul>`
+            },
+            {
+                name: "藤椒钵钵鸡300g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "300g 底料 + 各种煮熟的食材",
+                steps: `<ol>
+                    <li><strong>煮食材：</strong>将鸡爪、鸡肉、各种蔬菜煮熟备用。</li>
+                    <li><strong>调青椒汤：</strong>盆中加入<strong>300g藤椒钵钵鸡调料</strong>，加入凉开水调匀。</li>
+                    <li><strong>浸泡：</strong>将食材<strong>浸泡30分钟以上</strong>入味。</li>
+                    <li><strong>出餐：</strong>撒鲜花椒粒、芝麻、葱花即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 藤椒清香，麻而不辣</li>
+                    <li>🍃 适合不吃辣人群</li>
+                    <li>💡 加几滴藤椒油更麻</li>
+                </ul>`
+            },
+            {
+                name: "清汤火锅底料200g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "200g 底料 + 适量高汤或清水",
+                steps: `<ol>
+                    <li><strong>调锅底：</strong>锅中加入<strong>200g清汤底料</strong>，加入适量清水或高汤（约1-2升）。</li>
+                    <li><strong>煮沸：</strong>大火烧开后转小火，即可开始涮菜。</li>
+                    <li><strong>涮菜：</strong>按个人喜好涮各种荤素食材。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍲 清汤锅底养胃健康</li>
+                    <li>🥬 适合涮各类蔬菜和豆制品</li>
+                    <li>💡 可加红枣、枸杞增鲜</li>
+                </ul>`
+            },
+            {
+                name: "番茄火锅200g",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "200g 底料 + 适量清水",
+                steps: `<ol>
+                    <li><strong>调锅底：</strong>锅中加入<strong>200g番茄底料</strong>，加入清水搅匀。</li>
+                    <li><strong>煮沸：</strong>大火烧开，转小火保持微沸。</li>
+                    <li><strong>涮菜：</strong>适合涮肉片、虾滑、各类蔬菜。</li>
+                    <li><strong>出餐：</strong>酸甜开胃，汤底可直接饮用。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍅 番茄酸甜，开胃健脾</li>
+                    <li>🥩 适合涮牛肉、羊肉</li>
+                    <li>💡 可加新鲜番茄片增味</li>
+                </ul>`
+            },
+            {
+                name: "清油火锅调料500",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "500g 底料",
+                steps: `<ol>
+                    <li><strong>调油碟：</strong>碗中加入<strong>清油火锅调料</strong>作为油碟蘸料。</li>
+                    <li><strong>配锅底：</strong>配合其他锅底使用，直接蘸食。</li>
+                    <li><strong>提香：</strong>可加蒜末、香菜、葱花调味。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🫒 清油不腻，口感清爽</li>
+                    <li>🍲 适合搭配麻辣锅底</li>
+                    <li>💡 降温解辣护胃</li>
+                </ul>`
+            },
+            {
+                name: "手工全型火锅底料",
+                category: "huoguo",
+                categoryName: "火锅",
+                dosage: "按需取用",
+                steps: `<ol>
+                    <li><strong>化开：</strong>火锅底料取出室温软化或隔水加热化开。</li>
+                    <li><strong>调锅底：</strong>加入适量开水或高汤，搅匀煮开。</li>
+                    <li><strong>涮食：</strong>即可开始涮各种食材。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 手工制作，风味更足</li>
+                    <li>🌶️ 建议配合油碟使用</li>
+                    <li>💡 可加干辣椒节增辣</li>
+                </ul>`
+            },
+            {
+                name: "狼牙土豆90g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "90g 底料 + 土豆",
+                steps: `<ol>
+                    <li><strong>切土豆：</strong>土豆去皮，用波浪刀切成<strong>狼牙条</strong>。</li>
+                    <li><strong>炸土豆：</strong>油温六成热，下入土豆条<strong>炸至金黄</strong>捞出。</li>
+                    <li><strong>调味：</strong>将<strong>90g调料</strong>撒在土豆上，或与土豆拌匀。</li>
+                    <li><strong>出餐：</strong>撒葱花、香菜即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍟 外酥里嫩的小吃</li>
+                    <li>🌶️ 狼牙形状更易挂味</li>
+                    <li>💡 可加折耳根、酸萝卜</li>
+                </ul>`
+            },
+            {
+                name: "酸辣粉调料",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "按口味调配",
+                steps: `<ol>
+                    <li><strong>烫粉：</strong>红薯粉或土豆粉用温水泡软，开水下锅煮<strong>3-5分钟</strong>。</li>
+                    <li><strong>调碗底：</strong>碗中加入<strong>酸辣粉调料</strong>、醋、生抽、蒜水。</li>
+                    <li><strong>拌匀：</strong>捞出粉条放入碗中，<strong>充分拌匀</strong>。</li>
+                    <li><strong>出餐：</strong>撒上葱花、花生碎、黄豆即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍜 酸辣开胃，夏天必吃</li>
+                    <li>🥜 花生碎是灵魂点缀</li>
+                    <li>💡 可加肉末、榨菜增加口感</li>
+                </ul>`
+            },
+            {
+                name: "重庆小面调料",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>煮面：</strong>面条下锅煮至<strong>断生</strong>（约2-3分钟）。</li>
+                    <li><strong>调碗底：</strong>碗中加入<strong>重庆小面调料</strong>、生抽、醋、蒜水。</li>
+                    <li><strong>拌面：</strong>捞入面条，<strong>充分拌匀</strong>。</li>
+                    <li><strong>出餐：</strong>撒上葱花、花生、黄豆，淋上红油即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍜 麻辣鲜香，豌杂杂酱可选</li>
+                    <li>🥜 花生碎、黄豆增加酥脆口感</li>
+                    <li>💡 面条宜选碱水面</li>
+                </ul>`
+            },
+            {
+                name: "藤椒酱调料",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>炒菜：</strong>炒菜时加入<strong>藤椒酱</strong>调味。</li>
+                    <li><strong>凉拌：</strong>凉拌菜中加入少许提麻香。</li>
+                    <li><strong>蘸碟：</strong>作为火锅蘸碟的基底。</li>
+                    <li><strong>拌面：</strong>拌面时加入少许增香。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 藤椒清香麻而不苦</li>
+                    <li>🍳 炒菜提香去腥</li>
+                    <li>💡 用量不宜过多</li>
+                </ul>`
+            },
+            {
+                name: "香辛料粉1kg",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "1kg 大包装",
+                steps: `<ol>
+                    <li><strong>炖煮：</strong>炖汤、卤菜时加入适量提香。</li>
+                    <li><strong>腌制：</strong>腌制肉类时加入去腥增香。</li>
+                    <li><strong>炒菜：</strong>炒菜出锅前撒入提味。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 大包装，适合餐饮商用</li>
+                    <li>🧂 用量根据个人口味调整</li>
+                </ul>`
+            },
+            {
+                name: "调汤粉1kg/50g",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "大包装1kg 或 小包装50g",
+                steps: `<ol>
+                    <li><strong>煮汤：</strong>煮面汤、馄饨汤、火锅汤底时加入提鲜。</li>
+                    <li><strong>用量：</strong>小包装50g适合1-2次使用。</li>
+                    <li><strong>化开：</strong>用少量温水化开后加入汤中。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍜 一勺提鲜，汤鲜味美</li>
+                    <li>🥟 适合各类汤品</li>
+                    <li>💡 用量不宜过多</li>
+                </ul>`
+            },
+            {
+                name: "凉拌/凉面",
+                category: "luniang",
+                categoryName: "卤/凉菜",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>将蔬菜或面条煮熟，过凉水沥干。</li>
+                    <li><strong>调味：</strong>加入<strong>凉拌调料</strong>、蒜末、香醋、生抽。</li>
+                    <li><strong>拌匀：</strong>充分<strong>拌匀</strong>入味。</li>
+                    <li><strong>出餐：</strong>放入冰箱冷藏<strong>15分钟</strong>后食用更佳。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🥗 夏天开胃必备</li>
+                    <li>🍜 凉面可加花生碎、黄瓜丝</li>
+                    <li>💡 冷藏后更入味</li>
+                </ul>`
+            },
+            {
+                name: "麻辣烫500g",
+                category: "mbzhiwu",
+                categoryName: "冒菜/麻辣烫",
+                dosage: "500g 底料",
+                steps: `<ol>
+                    <li><strong>备菜：</strong>各种荤素食材洗净切好。</li>
+                    <li><strong>煮汤底：</strong>锅中加水烧开，加入<strong>500g麻辣烫底料</strong>。</li>
+                    <li><strong>烫菜：</strong>按食材成熟时间先后下锅，<strong>先荤后素</strong>。</li>
+                    <li><strong>出餐：</strong>盛入碗中，撒上芝麻、葱花即可。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍲 东北麻辣烫风格</li>
+                    <li>🥬 麻酱是经典搭配</li>
+                    <li>💡 可加糖或醋调味</li>
+                </ul>`
+            },
+            {
+                name: "回味粉",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>提鲜：</strong>炒菜、煮汤时加入少许<strong>回味粉</strong>提鲜。</li>
+                    <li><strong>去腥：</strong>腌制肉类时加入去腥。</li>
+                    <li><strong>拌面：</strong>凉面、拌面中加入增香。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🌿 回味悠长</li>
+                    <li>🧂 用量宜少不宜多</li>
+                </ul>`
+            },
+            {
+                name: "烧烤料",
+                category: "qita",
+                categoryName: "其他",
+                dosage: "按口味使用",
+                steps: `<ol>
+                    <li><strong>腌制：</strong>肉类提前用<strong>烧烤料</strong>腌制入味。</li>
+                    <li><strong>烤制：</strong>烧烤时边烤边撒料。</li>
+                    <li><strong>出餐：</strong>烤熟后可根据口味再撒一次。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🔥 孜然、辣椒、盐科学配比</li>
+                    <li>🥩 适合各类肉类</li>
+                    <li>💡 烤制时多次刷料更香</li>
+                </ul>`
+            },
+            {
+                name: "五香卤料",
+                category: "luniang",
+                categoryName: "卤/凉菜",
+                dosage: "200g卤料 + 1400g水 + 1.5-2kg食材",
+                steps: `<ol>
+                    <li><strong>焯水：</strong>将排骨、猪脚、鸡脚加入少量生姜<strong>焯水去腥</strong>洗净。（牛肉、猪头肉等需按肉重<strong>1%盐</strong>腌制入味12h左右）</li>
+                    <li><strong>调卤水：</strong>将卤调味料<strong>200g</strong>倒入锅中，按比例<strong>1:7</strong>加入<strong>1400g冷水</strong>，放入花椒、辣椒、生姜、大葱，<strong>50-100g色拉油</strong>。（做麻辣味额外加5g干辣椒+5g干花椒，做五香味额外加3g干青花椒）</li>
+                    <li><strong>卤制：</strong>将焯水洗净的肉类放入卤水中(<strong>冷水下锅</strong>)，<strong>大火煮开后转小火焖熟</strong>。</li>
+                    <li><strong>浸泡：</strong>关火<strong>浸泡入味</strong>（食材不同浸泡时间不同），<strong>3分卤7分泡</strong>。</li>
+                    <li><strong>提香：</strong>浸泡入味后捞出，再从卤水上层盛<strong>适量油淋在卤肉表面</strong>，拌匀后色泽风味更佳。</li>
+                </ol>`,
+                tips: `<ul>
+                    <li>🍖 <strong>卤水:卤货黄金比例</strong>：10斤卤水卤6-7斤货</li>
+                    <li>🥩 <strong>肉类</strong>：1:1.2-1.5（1斤卤水卤1.2-1.5斤）</li>
+                    <li>🥬 <strong>豆/菜</strong>：1:0.6-0.8（1斤卤水卤0.6-0.8斤）</li>
+                    <li>⚠️ <strong>封油是关键</strong>：封油能让卤货不发柴</li>
+                    <li>🔥 卤水必须完全没过食材（高出2-5cm最佳）</li>
+                </ul>`
+            }
+        ];
+
+        // 分类映射
+        const categoryMapping = {
+            'all': () => true,
+            'kaoyu': p => p.name.includes('烤鱼'),
+            'zhi baoyu': p => p.name.includes('纸包鱼'),
+            'malaxiangguo': p => p.name.includes('麻辣香锅'),
+            'huoguo': p => ['火锅', '美蛙', '串串', '钵钵'].some(w => p.name.includes(w)),
+            'xiaolongxia': p => ['虾', '龙虾'].some(w => p.name.includes(w)),
+            'yutiaoliao': p => ['酸菜鱼', '香水鱼', '藤椒鱼', '麻辣鱼', '红烧鱼'].some(w => p.name.includes(w)),
+            'luniang': p => ['卤', '凉拌'].some(w => p.name.includes(w)),
+            'mbzhiwu': p => ['冒菜', '麻辣烫'].some(w => p.name.includes(w)),
+            'qita': p => {
+                const categories = ['烤鱼', '纸包鱼', '麻辣香锅', '火锅', '虾', '龙虾', '鱼调料', '卤', '凉拌', '冒菜', '麻辣烫'];
+                return !categories.some(c => p.name.includes(c));
+            }
+        };
+
+        // 当前筛选状态
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // 渲染产品卡片
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+            const visibleCount = document.getElementById('visibleCount');
+
+            let filtered = productsData.filter(p => {
+                const matchCategory = categoryMapping[currentCategory](p);
+                const matchSearch = searchQuery === '' ||
+                    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    p.steps.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    p.dosage.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            visibleCount.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.add('show');
+                return;
+            }
+
+            noResults.classList.remove('show');
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card" data-category="${p.category}">
+                    <div class="card-header ${p.category}">
+                        <span class="product-name">${p.name}</span>
+                        <span class="product-badge">${p.categoryName}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="dosage-info">
+                            <strong>📦 用量：</strong>${p.dosage}
+                        </div>
+                        <div class="steps-title">
+                            📋 操作步骤
+                        </div>
+                        <div class="steps-content">
+                            ${p.steps}
+                        </div>
+                        ${p.tips ? `
+                        <div class="tips-box">
+                            <div class="title">💡 温馨提示</div>
+                            ${p.tips}
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        // 分类切换
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('category-tab')) {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                renderProducts();
+            }
+        });
+
+        // 初始渲染
+        renderProducts();
+    </script>
+</body>
+</html>

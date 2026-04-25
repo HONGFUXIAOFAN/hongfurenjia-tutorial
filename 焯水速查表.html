@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥 厨房焯水终极速查表</title>
+<style>
+  :root {
+    --red-deep: #a50000;
+    --red-main: #c0392b;
+    --red-light: #e74c3c;
+    --red-pale: #fdecea;
+    --red-border: #f5b7b1;
+    --orange: #e67e22;
+    --green-safe: #1a7a3c;
+    --green-bg: #eafaf1;
+    --green-border: #a9dfbf;
+    --yellow: #f39c12;
+    --yellow-bg: #fef9e7;
+    --yellow-border: #f9e79f;
+    --blue: #2980b9;
+    --blue-bg: #eaf4fb;
+    --blue-border: #aed6f1;
+    --gray: #7f8c8d;
+    --text-dark: #2c3e50;
+    --text-mid: #5d6d7e;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(192,57,43,0.13);
+    --card-radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    background: linear-gradient(135deg, #a50000 0%, #c0392b 40%, #e74c3c 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-dark);
+  }
+
+  /* ============ 顶部标题 ============ */
+  .page-header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    color: white;
+  }
+  .page-header h1 {
+    font-size: 2.2em;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    margin-bottom: 8px;
+  }
+  .page-header .subtitle {
+    font-size: 1em;
+    opacity: 0.88;
+    letter-spacing: 1px;
+  }
+  .page-header .badge {
+    display: inline-block;
+    margin-top: 12px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 0.85em;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ 搜索框 ============ */
+  .search-wrap {
+    max-width: 640px;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 14px 50px 14px 20px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    background: white;
+    color: var(--text-dark);
+  }
+  .search-wrap .search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    pointer-events: none;
+    color: var(--red-main);
+  }
+  .search-clear {
+    display: none;
+    position: absolute;
+    right: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 1.1em;
+    padding: 4px;
+  }
+  .search-clear.visible { display: block; }
+
+  /* ============ 分类筛选标签 ============ */
+  .tab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 900px;
+    margin: 0 auto 24px;
+  }
+  .tab-btn {
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.18);
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+    font-weight: 500;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.3); }
+  .tab-btn.active {
+    background: white;
+    color: var(--red-main);
+    border-color: white;
+    font-weight: 700;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  }
+
+  /* ============ 主容器 ============ */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ============ 章节标题 ============ */
+  .section-header {
+    background: linear-gradient(90deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 100%);
+    border-left: 5px solid white;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 28px 0 16px;
+    color: white;
+    font-size: 1.15em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-header .sec-count {
+    background: white;
+    color: var(--red-main);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.8em;
+    font-weight: 700;
+  }
+
+  /* ============ 卡片网格 ============ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* ============ 单张卡片 ============ */
+  .card {
+    background: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(192,57,43,0.22);
+  }
+  .card.hidden { display: none; }
+
+  .card-head {
+    padding: 14px 18px 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid #f5f0f0;
+  }
+  .card-head .icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .icon-danger { background: #fdecea; }
+  .icon-caution { background: #fff3e0; }
+  .icon-safe { background: #eafaf1; }
+  .icon-meat { background: #fce4ec; }
+  .icon-tip { background: #e3f2fd; }
+
+  .card-head .title-area h3 {
+    font-size: 1.08em;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+  .card-head .title-area .food-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .food-tag {
+    background: #f8f0f0;
+    color: var(--red-main);
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-size: 0.78em;
+    font-weight: 500;
+  }
+
+  .card-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+  /* 风险标签 */
+  .risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.83em;
+    font-weight: 600;
+    width: fit-content;
+  }
+  .risk-high { background: var(--red-pale); color: #c0392b; border: 1px solid var(--red-border); }
+  .risk-mid  { background: var(--yellow-bg); color: #a04000; border: 1px solid var(--yellow-border); }
+  .risk-low  { background: var(--blue-bg); color: #1a5276; border: 1px solid var(--blue-border); }
+  .risk-safe { background: var(--green-bg); color: var(--green-safe); border: 1px solid var(--green-border); }
+
+  /* 步骤列表 */
+  .steps-label {
+    font-size: 0.82em;
+    font-weight: 700;
+    color: var(--red-main);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .steps-list { display: flex; flex-direction: column; gap: 6px; }
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--text-dark);
+    line-height: 1.5;
+  }
+  .step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--red-main);
+    color: white;
+    font-size: 0.72em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* 禁忌提示 */
+  .warning-box {
+    background: #fff5f5;
+    border: 1px solid #f5b7b1;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.84em;
+    color: #922b21;
+    line-height: 1.55;
+  }
+  .warning-box strong { color: #a93226; }
+
+  /* 科学小贴士 */
+  .sci-box {
+    background: var(--blue-bg);
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.83em;
+    color: #1a5276;
+    line-height: 1.55;
+  }
+  .sci-box .sci-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 0.9em;
+  }
+
+  /* 小贴士段落 */
+  .tip-box {
+    background: var(--yellow-bg);
+    border: 1px solid var(--yellow-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.83em;
+    color: #7e5109;
+    line-height: 1.55;
+  }
+
+  /* ============ 黄金技巧横幅区 ============ */
+  .golden-section {
+    max-width: 1100px;
+    margin: 28px auto 20px;
+  }
+  .golden-title {
+    color: white;
+    font-size: 1.15em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .golden-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .golden-card {
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: var(--card-radius);
+    padding: 18px 16px;
+    color: white;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s;
+  }
+  .golden-card:hover { background: rgba(255,255,255,0.22); }
+  .golden-card .g-icon { font-size: 1.8em; margin-bottom: 8px; }
+  .golden-card .g-title { font-size: 1em; font-weight: 700; margin-bottom: 5px; }
+  .golden-card .g-desc { font-size: 0.87em; opacity: 0.9; line-height: 1.55; }
+  .golden-card .g-science {
+    margin-top: 8px;
+    font-size: 0.8em;
+    opacity: 0.78;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 7px;
+    line-height: 1.5;
+  }
+
+  /* ============ 不焯水横幅 ============ */
+  .no-blanch-section {
+    max-width: 1100px;
+    margin: 28px auto 20px;
+  }
+  .no-blanch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .no-blanch-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: var(--card-radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--green-safe);
+  }
+  .no-blanch-card .nb-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--green-safe);
+    margin-bottom: 8px;
+    font-size: 0.95em;
+  }
+  .no-blanch-card .nb-foods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .nb-tag {
+    background: var(--green-bg);
+    color: var(--green-safe);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    font-weight: 500;
+  }
+  .no-blanch-card .nb-reason {
+    font-size: 0.82em;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ============ 搜索结果空状态 ============ */
+  .no-result {
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    padding: 50px 20px;
+    font-size: 1.05em;
+    display: none;
+  }
+  .no-result.visible { display: block; }
+
+  /* ============ 底部说明 ============ */
+  .footer {
+    text-align: center;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.82em;
+    padding: 30px 20px 40px;
+    line-height: 1.8;
+  }
+
+  /* ============ 搜索高亮 ============ */
+  mark {
+    background: #ffeb3b;
+    color: #333;
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+
+  /* ============ 响应式 ============ */
+  @media (max-width: 600px) {
+    .page-header h1 { font-size: 1.6em; }
+    .card-grid { grid-template-columns: 1fr; }
+    .golden-grid { grid-template-columns: 1fr; }
+    .no-blanch-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 顶部标题 ========== -->
+<div class="page-header">
+  <h1>🔥 厨房焯水终极速查表</h1>
+  <div class="subtitle">科学焯水 · 安全饮食 · 营养保留</div>
+  <div class="badge">📚 涵盖蔬菜 · 肉类 · 黄金技巧 · 禁忌食材</div>
+</div>
+
+<!-- ========== 搜索框 ========== -->
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="搜索食材、处理方法、风险类型…" oninput="doSearch(this.value)">
+  <span class="search-clear" id="clearBtn" onclick="clearSearch()">✕</span>
+  <span class="search-icon">🔍</span>
+</div>
+
+<!-- ========== 分类筛选 ========== -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="filterTab('all', this)">全部</button>
+  <button class="tab-btn" onclick="filterTab('nitrite', this)">高亚硝酸盐</button>
+  <button class="tab-btn" onclick="filterTab('toxin', this)">天然毒素</button>
+  <button class="tab-btn" onclick="filterTab('oxalate', this)">高草酸</button>
+  <button class="tab-btn" onclick="filterTab('parasite', this)">易藏虫卵</button>
+  <button class="tab-btn" onclick="filterTab('aquatic', this)">水生植物</button>
+  <button class="tab-btn" onclick="filterTab('fungus', this)">菌藻类</button>
+  <button class="tab-btn" onclick="filterTab('meat', this)">肉类焯水</button>
+</div>
+
+<!-- ========== 主内容 ========== -->
+<div class="main" id="mainContent">
+
+  <!-- 搜索无结果提示 -->
+  <div class="no-result" id="noResult">😢 没有找到相关食材，试试其他关键词？</div>
+
+  <!-- ===== 第一章：必须焯水的蔬菜 ===== -->
+  <div class="section-header" data-section="veg">
+    <span>🥬</span>
+    <span>一、必须焯水的 6 类蔬菜</span>
+    <span class="sec-count">不焯真的会出事！</span>
+  </div>
+
+  <div class="card-grid" id="vegCards">
+
+    <!-- 1. 高亚硝酸盐类 -->
+    <div class="card" data-category="nitrite" data-keywords="高亚硝酸盐 香椿 芹菜 生菜 菠菜 亚硝胺 致癌 中毒">
+      <div class="card-head">
+        <div class="icon icon-danger">🚨</div>
+        <div class="title-area">
+          <h3>高亚硝酸盐类蔬菜</h3>
+          <div class="food-tags">
+            <span class="food-tag">香椿</span>
+            <span class="food-tag">芹菜</span>
+            <span class="food-tag">生菜</span>
+            <span class="food-tag">菠菜</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">⚠️ 高风险：短期摄入 200mg+ 可中毒，亚硝胺为一类致癌物</div>
+        <div>
+          <div class="steps-label">✅ 正确焯水步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>烧一锅水至完全沸腾（100℃）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>加入 <strong>1 茶匙盐</strong>（约 5g），可护色并提前入味</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>蔬菜放入沸水，计时 <strong>30–60 秒</strong></span></div>
+            <div class="step-item"><span class="step-num">4</span><span>捞出立即放入冰水（或冷水）中冷却，防止继续加热</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>焯后水倒掉，不可复用于烹饪</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ <strong>香椿专项：</strong>宜低温冷藏，保存不超过 3 天；焯后尽快食用，隔夜亚硝酸盐含量会显著回升</div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          焯水能使亚硝酸盐溶于水中被去除，研究显示焯水 30 秒可去除香椿中约 65%–90% 的亚硝酸盐，大幅降低风险。
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 鲜黄花菜 -->
+    <div class="card" data-category="toxin" data-keywords="鲜黄花菜 黄花菜 秋水仙碱 毒素 肾衰竭 干黄花菜">
+      <div class="card-head">
+        <div class="icon icon-danger">☠️</div>
+        <div class="title-area">
+          <h3>鲜黄花菜</h3>
+          <div class="food-tags">
+            <span class="food-tag">鲜黄花菜</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">☠️ 极高风险：秋水仙碱氧化后毒性翻 10 倍，严重可致肾衰竭</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span><strong>摘除花蕊</strong>（含毒素最集中的部分）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>清水冲洗 2–3 遍</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>沸水下锅，煮 <strong>8–10 分钟</strong>（不能缩短！）</span></div>
+            <div class="step-item"><span class="step-num">4</span><span>捞出后用清水浸泡 <strong>2–4 小时</strong>，中途换水 1–2 次</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>沥干后方可烹饪</span></div>
+          </div>
+        </div>
+        <div class="tip-box">💡 <strong>更安全的选择：</strong>优先购买干黄花菜（晒制过程已分解大量秋水仙碱）。干花泡发后正常烹饪即可，无需长时间焯水。</div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          秋水仙碱本身毒性较低，但在人体内经氧化代谢为"二秋水仙碱"，毒性倍增。高温持续加热可分解秋水仙碱，浸泡可将其溶出。每 100g 鲜黄花菜约含 0.1–0.2mg 秋水仙碱，成人中毒阈值约 1.5mg。
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 四季豆/扁豆/芸豆 -->
+    <div class="card" data-category="toxin" data-keywords="四季豆 扁豆 芸豆 皂苷 植物凝集素 豆角 集体中毒">
+      <div class="card-head">
+        <div class="icon icon-danger">🫘</div>
+        <div class="title-area">
+          <h3>四季豆 · 扁豆 · 芸豆</h3>
+          <div class="food-tags">
+            <span class="food-tag">四季豆</span>
+            <span class="food-tag">扁豆</span>
+            <span class="food-tag">芸豆</span>
+            <span class="food-tag">豆角</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">⚠️ 高风险：皂苷 + 植物凝集素，食堂集体中毒的年度常客</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span><strong>掐头去尾，撕去筋丝</strong>（筋中毒素含量高）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>清水浸泡 10 分钟</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>沸水下锅，煮 <strong>10 分钟以上</strong>，用筷子戳无硬芯</span></div>
+            <div class="step-item"><span class="step-num">4</span><span>观察颜色：必须变成<strong>深绿色</strong>（不能有生绿色残留）</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>嗅无生腥味后方可捞出再炒</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ 不能靠"炒熟"代替焯水！炒锅翻炒很难做到整体均匀受热 10 分钟。建议先焯水彻底熟透，再下锅调味翻炒。</div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          植物血凝素（PHA）在 100℃ 持续加热 10 分钟才能完全失活；皂苷加热后分解为无毒成分。两种毒素均对热敏感，但需足够时间和温度。
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 发芽/发青土豆 -->
+    <div class="card" data-category="toxin" data-keywords="发芽土豆 发青土豆 龙葵素 龙葵碱 土豆 马铃薯 中毒">
+      <div class="card-head">
+        <div class="icon icon-danger">🥔</div>
+        <div class="title-area">
+          <h3>发芽 / 发青土豆</h3>
+          <div class="food-tags">
+            <span class="food-tag">发芽土豆</span>
+            <span class="food-tag">发青土豆</span>
+            <span class="food-tag">马铃薯</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">⚠️ 高风险：龙葵素，发芽部位含量是正常部位的 50 倍</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>检查土豆：<strong>发青超 1/3 或已腐烂直接丢弃，不可食用</strong></span></div>
+            <div class="step-item"><span class="step-num">2</span><span>用刀<strong>彻底挖除所有发芽点和发青部位</strong>，范围要比看到的更大（芽眼周围 2cm 都要去掉）</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>削皮后切块，<strong>冷水浸泡 30 分钟</strong>（龙葵素可溶于水）</span></div>
+            <div class="step-item"><span class="step-num">4</span><span>沸水焯 <strong>5 分钟</strong>，弃焯水水</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>搭配醋酸烹饪可进一步分解龙葵素</span></div>
+          </div>
+        </div>
+        <div class="tip-box">💡 储存方法：土豆应放在<strong>阴凉避光干燥</strong>处，与苹果同放可延缓发芽（苹果释放乙烯有抑制作用，实际效果有限，最佳是避光低温）。</div>
+      </div>
+    </div>
+
+    <!-- 5. 青西红柿 -->
+    <div class="card" data-category="toxin" data-keywords="青西红柿 青番茄 龙葵素 未熟番茄 西红柿">
+      <div class="card-head">
+        <div class="icon icon-caution">🍅</div>
+        <div class="title-area">
+          <h3>青西红柿（未完全成熟）</h3>
+          <div class="food-tags">
+            <span class="food-tag">青西红柿</span>
+            <span class="food-tag">未熟番茄</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-mid">⚡ 中风险：含龙葵素，刺激胃肠道，引发恶心呕吐</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span><strong>优先选择完全变红的西红柿</strong>（龙葵素会随成熟降解至极低水平）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>若必须用青西红柿，充分加热至变色变软</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>沸水焯 2–3 分钟后再烹饪</span></div>
+          </div>
+        </div>
+        <div class="tip-box">💡 完全成熟的红番茄龙葵素含量仅 0.5–5mg/100g，无需焯水可直接食用。不必谈番茄色变。</div>
+      </div>
+    </div>
+
+    <!-- 6. 鲜蚕豆 -->
+    <div class="card" data-category="toxin" data-keywords="鲜蚕豆 蚕豆病 巢菜碱苷 溶血 蚕豆 南方">
+      <div class="card-head">
+        <div class="icon icon-danger">🫘</div>
+        <div class="title-area">
+          <h3>鲜蚕豆</h3>
+          <div class="food-tags">
+            <span class="food-tag">鲜蚕豆</span>
+            <span class="food-tag">南方高发</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">⚠️ 高风险：巢菜碱苷引发蚕豆病，急性溶血性贫血</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>剥去外皮，剔除有黑点或变色的豆</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>沸水下锅，煮 <strong>10 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>可加少许盐防止氧化变色</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ <strong>重点人群：</strong>南方人群中约 1%–2% 携带 G6PD 缺乏基因。儿童和有家族史的人<strong>首次少量尝试</strong>，出现黄疸、尿色加深立即就医！</div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          巢菜碱苷（Vicine）和伴巢菜碱苷（Convicine）水解产物会使 G6PD 缺乏者红细胞膜氧化损伤，导致溶血。高温可水解和破坏这些糖苷类物质。
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 高草酸类 -->
+    <div class="card" data-category="oxalate" data-keywords="高草酸 菠菜 空心菜 苋菜 竹笋 马齿苋 草酸钙 结石 钙吸收">
+      <div class="card-head">
+        <div class="icon icon-caution">🌿</div>
+        <div class="title-area">
+          <h3>高草酸类蔬菜</h3>
+          <div class="food-tags">
+            <span class="food-tag">菠菜</span>
+            <span class="food-tag">空心菜</span>
+            <span class="food-tag">苋菜</span>
+            <span class="food-tag">竹笋</span>
+            <span class="food-tag">马齿苋</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-mid">🦴 中风险：形成草酸钙，阻碍钙吸收，长期过量增加肾结石风险</div>
+        <div>
+          <div class="steps-label">✅ 正确焯水步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>烧一大锅水至沸腾，加 <strong>1 茶匙盐 + 几滴食用油</strong></span></div>
+            <div class="step-item"><span class="step-num">2</span><span>叶菜（菠菜、空心菜、苋菜）煮 <strong>1–2 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>竹笋、马齿苋煮 <strong>3–4 分钟</strong>（纤维较粗，需更长时间）</span></div>
+            <div class="step-item"><span class="step-num">4</span><span>立即捞出过<strong>冰水或凉水</strong>，保色保脆</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>焯水水弃掉，草酸大部分已溶于水中</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ 不要以为"油炒"就能替代焯水！炒制去草酸率不到 5%，而焯水可去除 50%–70% 草酸。豆腐菠菜一起烹饪务必先焯菠菜，防止草酸钙影响豆腐中钙的吸收。</div>
+      </div>
+    </div>
+
+    <!-- 8. 西兰花/花椰菜 -->
+    <div class="card" data-category="parasite" data-keywords="西兰花 花椰菜 花椰 菜花 虫卵 农药 残留 脆嫩">
+      <div class="card-head">
+        <div class="icon icon-caution">🥦</div>
+        <div class="title-area">
+          <h3>西兰花 · 花椰菜</h3>
+          <div class="food-tags">
+            <span class="food-tag">西兰花</span>
+            <span class="food-tag">花椰菜</span>
+            <span class="food-tag">菜花</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-mid">🐛 中风险：缝隙中藏虫卵、农药残留、灰尘</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>掰成小朵，用<strong>淡盐水浸泡 10 分钟</strong>（盐水可帮助逼出虫卵）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>流水冲洗 1–2 分钟</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>沸水中加 <strong>1 茶匙盐 + 少许油</strong>，下锅煮 <strong>2–3 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">4</span><span>捞出立即投入<strong>冰水</strong>（10–15 秒）</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>沥干后再炒，颜色翠绿口感脆嫩</span></div>
+          </div>
+        </div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 为什么过冰水？</div>
+          沸水焯后立刻过冰水，利用热胀冷缩原理"锁住"叶绿素，防止镁离子被置换导致变黄，保持鲜绿色泽和脆嫩口感。餐厅出品漂亮的秘密就在这一步。
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. 鲜木耳 -->
+    <div class="card" data-category="parasite" data-keywords="鲜木耳 木耳 卟啉 日光性皮炎 光敏 新鲜木耳">
+      <div class="card-head">
+        <div class="icon icon-caution">🍄</div>
+        <div class="title-area">
+          <h3>鲜木耳</h3>
+          <div class="food-tags">
+            <span class="food-tag">鲜木耳</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-mid">☀️ 中风险：含卟啉类物质，食用后晒太阳可引发日光性皮炎</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>清洗干净，去除根部硬蒂</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>沸水下锅，焯 <strong>3–5 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>捞出过凉水，沥干备用</span></div>
+          </div>
+        </div>
+        <div class="tip-box">💡 <strong>优先推荐干木耳：</strong>晒制过程已分解大部分卟啉类物质，泡发后正常烹饪即可。干木耳泡发不超过 <strong>4 小时</strong>，夏天放冰箱泡发。</div>
+      </div>
+    </div>
+
+    <!-- 10. 水生植物类 -->
+    <div class="card" data-category="aquatic" data-keywords="莲藕 菱角 茭白 荸荠 水生植物 寄生虫 泥沙">
+      <div class="card-head">
+        <div class="icon icon-caution">🪷</div>
+        <div class="title-area">
+          <h3>水生植物类</h3>
+          <div class="food-tags">
+            <span class="food-tag">莲藕</span>
+            <span class="food-tag">菱角</span>
+            <span class="food-tag">茭白</span>
+            <span class="food-tag">荸荠</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-mid">🪱 中风险：寄生虫卵（如姜片吸虫）、泥沙污染</div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>莲藕：藕孔用<strong>细刷子仔细刷洗</strong>，切片后冷水加白醋浸泡防氧化</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>莲藕沸水煮 <strong>5–6 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>菱角、茭白、荸荠沸水煮 <strong>2–3 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">4</span><span>捞出过凉水，保持口感</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ 水生植物不可生食，其生长水域可能含有姜片吸虫卵，感染后会引起慢性消化道疾病。</div>
+      </div>
+    </div>
+
+    <!-- 11. 菌藻类（木耳/海带/香菇） -->
+    <div class="card" data-category="fungus" data-keywords="木耳 海带 香菇 菌藻类 米酵菌酸 致死 泡发 变黏">
+      <div class="card-head">
+        <div class="icon icon-danger">🌊</div>
+        <div class="title-area">
+          <h3>菌藻类（木耳 · 海带 · 香菇）</h3>
+          <div class="food-tags">
+            <span class="food-tag">木耳</span>
+            <span class="food-tag">海带</span>
+            <span class="food-tag">香菇</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-high">💀 致命风险：木耳泡发不当产生米酵菌酸，<strong>致死率 40%–100%，无特效解毒药</strong></div>
+        <div>
+          <div class="steps-label">✅ 正确处理步骤</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>木耳泡发：<strong>冷水泡，不超过 4 小时</strong>（夏天放冰箱）</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>检查：有黏滑感、异味 → <strong>立即丢弃！</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>沸水中焯 <strong>2–3 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">4</span><span>海带：泡发冲洗后沸水焯 2–3 分钟</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>香菇：洗净后沸水焯 1–2 分钟</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ <strong>米酵菌酸警告：</strong>米酵菌酸耐热性极强，即使煮沸也无法完全灭活！预防的唯一方法是<strong>不让椰毒假单胞菌在泡发过程中繁殖</strong>。切记：时间短、用冷水、发现异常直接扔。</div>
+      </div>
+    </div>
+
+  </div><!-- /vegCards -->
+
+  <!-- ===== 第二章：肉类焯水 ===== -->
+  <div class="section-header" data-section="meat">
+    <span>🥩</span>
+    <span>二、肉类焯水方法</span>
+    <span class="sec-count">90% 的人第一步就错了！</span>
+  </div>
+
+  <div class="card-grid" id="meatCards">
+
+    <!-- 腥膻味重的肉 -->
+    <div class="card" data-category="meat" data-keywords="腥膻 五花肉 排骨 肘子 牛腩 羊排 内脏 冷水下锅 血水 浮沫">
+      <div class="card-head">
+        <div class="icon icon-meat">🥩</div>
+        <div class="title-area">
+          <h3>腥膻味重的肉类</h3>
+          <div class="food-tags">
+            <span class="food-tag">五花肉</span>
+            <span class="food-tag">排骨</span>
+            <span class="food-tag">肘子</span>
+            <span class="food-tag">牛腩</span>
+            <span class="food-tag">羊排</span>
+            <span class="food-tag">内脏</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-low">🎯 目的：去血水、去腥味、去浮沫，为后续炖煮做准备</div>
+        <div>
+          <div class="steps-label">✅ 正确焯水步骤（必须冷水下锅！）</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>肉类提前用冷水浸泡 30 分钟，逼出部分血水</span></div>
+            <div class="step-item"><span class="step-num">2</span><span>将肉放入锅中，<strong>冷水下锅</strong>（与肉一起从冷水升温）</span></div>
+            <div class="step-item"><span class="step-num">3</span><span>加入<strong>葱段、姜片、料酒适量</strong></span></div>
+            <div class="step-item"><span class="step-num">4</span><span>中大火烧开，出现大量浮沫时 <strong>撇净浮沫</strong>（持续 2–3 分钟）</span></div>
+            <div class="step-item"><span class="step-num">5</span><span>捞出肉，用<strong>温水冲洗</strong>（35–45℃，不能用冷水！）</span></div>
+            <div class="step-item"><span class="step-num">6</span><span>沥干后进行后续炖煮或卤制</span></div>
+          </div>
+        </div>
+        <div class="warning-box">
+          ⛔ <strong>两大错误：</strong><br>
+          ❶ <strong>沸水下锅</strong>：高温使肉表面蛋白质迅速凝固，血水和异味被"封存"在肉里，永远去不干净<br>
+          ❷ <strong>冷水冲洗</strong>：热肉遇冷水，肌肉纤维骤然收缩，口感变柴变硬，整锅汤也会浑浊
+        </div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          冷水下锅使肉从内到外均匀缓慢加热，血水和水溶性腥味物质随温度升高逐步渗出，浮沫为血蛋白凝固物质。用温水冲洗是为了避免肌肉纤维热胀冷缩而收紧。
+        </div>
+      </div>
+    </div>
+
+    <!-- 鲜嫩易熟的肉 -->
+    <div class="card" data-category="meat" data-keywords="里脊 猪里脊 牛里脊 鸡胸肉 鲜嫩 嫩肉 锁水 沸水下锅">
+      <div class="card-head">
+        <div class="icon icon-meat">🍗</div>
+        <div class="title-area">
+          <h3>鲜嫩易熟的肉类</h3>
+          <div class="food-tags">
+            <span class="food-tag">猪里脊</span>
+            <span class="food-tag">牛里脊</span>
+            <span class="food-tag">鸡胸肉</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="risk-badge risk-low">🎯 目的：锁住水分、去表面杂质、快速定型</div>
+        <div>
+          <div class="steps-label">✅ 正确焯水步骤（沸水下锅！）</div>
+          <div class="steps-list">
+            <div class="step-item"><span class="step-num">1</span><span>将肉切薄片（厚度 3–5mm）或切条，提前用<strong>淀粉 + 料酒 + 盐抓匀腌制 10 分钟</strong></span></div>
+            <div class="step-item"><span class="step-num">2</span><span>烧一锅水至<strong>完全沸腾</strong></span></div>
+            <div class="step-item"><span class="step-num">3</span><span>将肉片下入沸水，用筷子<strong>迅速拨散</strong>防止粘连</span></div>
+            <div class="step-item"><span class="step-num">4</span><span>烫 <strong>30–60 秒</strong>，观察到肉片<strong>变白变色立即捞出</strong></span></div>
+            <div class="step-item"><span class="step-num">5</span><span>不过水，直接进行后续炒制或调味</span></div>
+          </div>
+        </div>
+        <div class="warning-box">⛔ <strong>最常见错误：煮太久！</strong>鲜嫩肉类的肌肉纤维细，蛋白质在 70℃ 以上开始迅速变硬，超过 2 分钟口感会明显变老变柴。宁可少焯一点，利用余温再熟。</div>
+        <div class="sci-box">
+          <div class="sci-title">🔬 科学原理</div>
+          沸水下锅使肉表面蛋白质迅速凝固，形成隔热保护层，阻止内部水分散失，从而保持嫩滑口感。这与腥膻肉类需要"慢慢渗出血水"的目的完全相反，所以两类肉的焯法截然不同。
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /meatCards -->
+
+</div><!-- /main -->
+
+<!-- ========== 黄金技巧 ========== -->
+<div class="golden-section" id="goldenSection">
+  <div class="golden-title"><span>✨</span> 焯水通用黄金技巧</div>
+  <div class="golden-grid">
+    <div class="golden-card">
+      <div class="g-icon">🧂</div>
+      <div class="g-title">加一勺盐</div>
+      <div class="g-desc">既能提前入味，又能让蔬菜颜色更鲜艳翠绿。一般 1 升水加 5–8g 盐（约 1 茶匙）</div>
+      <div class="g-science">🔬 盐分提高水的沸点，同时抑制叶绿素酶活性，延缓叶绿素分解</div>
+    </div>
+    <div class="golden-card">
+      <div class="g-icon">🫒</div>
+      <div class="g-title">加几滴油</div>
+      <div class="g-desc">在蔬菜表面形成油脂保护膜，防止营养成分大量流失，同时增加光泽感</div>
+      <div class="g-science">🔬 油脂包裹蔬菜后减少水溶性维生素与热水的接触面积，能保留约 10%–15% 更多 B 族维生素</div>
+    </div>
+    <div class="golden-card">
+      <div class="g-icon">🧊</div>
+      <div class="g-title">焯后立即过凉水</div>
+      <div class="g-desc">绿叶菜焯水后立刻投入冰水或凉水，保持脆嫩口感，防止余温继续加热导致变黄变软</div>
+      <div class="g-science">🔬 骤冷"锁住"叶绿素中的镁离子，防止其被氢离子取代变成褐色脱镁叶绿素</div>
+    </div>
+    <div class="golden-card">
+      <div class="g-icon">⏱️</div>
+      <div class="g-title">宁短勿长</div>
+      <div class="g-desc">大部分蔬菜焯水 1–3 分钟即可，时间越长营养流失越多。维 C 每多焯 1 分钟损失约 10%</div>
+      <div class="g-science">🔬 水溶性维生素（C、B1、B2、叶酸）在沸水中会持续溶出，焯水 2 分钟比 5 分钟能保留约 30% 更多维 C</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 不要焯水的食材 ========== -->
+<div class="no-blanch-section" id="noBlanch">
+  <div class="golden-title"><span>🚫</span> 绝对不要焯水的食材（焯了纯纯浪费营养）</div>
+  <div class="no-blanch-grid">
+    <div class="no-blanch-card">
+      <div class="nb-head">🥬 叶嫩易熟类</div>
+      <div class="nb-foods">
+        <span class="nb-tag">生菜</span>
+        <span class="nb-tag">油麦菜</span>
+        <span class="nb-tag">小白菜</span>
+        <span class="nb-tag">娃娃菜</span>
+      </div>
+      <div class="nb-reason">叶片薄嫩，直接炒 30 秒即熟。焯水后维 C 损失超 50%，口感变软烂，完全没必要。</div>
+    </div>
+    <div class="no-blanch-card">
+      <div class="nb-head">🥒 适合生吃类</div>
+      <div class="nb-foods">
+        <span class="nb-tag">黄瓜</span>
+        <span class="nb-tag">番茄</span>
+        <span class="nb-tag">紫甘蓝</span>
+      </div>
+      <div class="nb-reason">生食口感最佳，营养最全。加热反而破坏花青素（紫甘蓝）和番茄红素的吸收利用率。</div>
+    </div>
+    <div class="no-blanch-card">
+      <div class="nb-head">🌿 草酸低的蔬菜</div>
+      <div class="nb-foods">
+        <span class="nb-tag">蒜苔</span>
+        <span class="nb-tag">青椒</span>
+        <span class="nb-tag">冬瓜</span>
+        <span class="nb-tag">南瓜</span>
+        <span class="nb-tag">丝瓜</span>
+      </div>
+      <div class="nb-reason">草酸含量低，不存在结石风险，也无需灭毒。焯水只会让它们变软、损失维生素。</div>
+    </div>
+    <div class="no-blanch-card">
+      <div class="nb-head">🌶️ 高维生素 C 类</div>
+      <div class="nb-foods">
+        <span class="nb-tag">甜椒</span>
+        <span class="nb-tag">苦瓜</span>
+      </div>
+      <div class="nb-reason">维 C 含量是蔬菜中最丰富的，焯水会损失大量维 C（水溶性，极不耐热），炒制时间也应尽量短。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 底部说明 ========== -->
+<div class="footer">
+  <div>📌 本文档内容来源于《厨房焯水终极速查表》，经科学原理补充与扩展</div>
+  <div>🔬 科学依据参考：食品安全国家标准、营养学文献，供参考使用</div>
+  <div style="margin-top:8px; opacity:0.6;">© 红福小范厨房知识系列</div>
+</div>
+
+<!-- ========== JavaScript ========== -->
+<script>
+  const allCards = document.querySelectorAll('.card');
+  let currentTab = 'all';
+  let currentSearch = '';
+
+  function doSearch(val) {
+    currentSearch = val.trim().toLowerCase();
+    document.getElementById('clearBtn').classList.toggle('visible', currentSearch.length > 0);
+    applyFilter();
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    doSearch('');
+  }
+
+  function filterTab(tab, btn) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter();
+  }
+
+  function applyFilter() {
+    let visibleCount = 0;
+
+    // 黄金技巧和不焯水区域根据 tab 控制显隐
+    const showAll = (currentTab === 'all' && currentSearch === '');
+    document.getElementById('goldenSection').style.display = showAll ? '' : 'none';
+    document.getElementById('noBlanch').style.display = showAll ? '' : 'none';
+
+    // 章节标题显隐
+    const vegHeader = document.querySelector('[data-section="veg"]');
+    const meatHeader = document.querySelector('[data-section="meat"]');
+
+    allCards.forEach(card => {
+      const category = card.dataset.category || '';
+      const keywords = (card.dataset.keywords || '') + ' ' + card.innerText.toLowerCase();
+
+      const tabMatch = (currentTab === 'all') || (category === currentTab);
+      const searchMatch = (currentSearch === '') || keywords.includes(currentSearch);
+
+      if (tabMatch && searchMatch) {
+        card.classList.remove('hidden');
+        visibleCount++;
+        highlightText(card, currentSearch);
+      } else {
+        card.classList.add('hidden');
+        removeHighlight(card);
+      }
+    });
+
+    // 控制章节标题
+    const vegVisible = [...document.querySelectorAll('#vegCards .card')].some(c => !c.classList.contains('hidden'));
+    const meatVisible = [...document.querySelectorAll('#meatCards .card')].some(c => !c.classList.contains('hidden'));
+    vegHeader.style.display = vegVisible ? '' : 'none';
+    meatHeader.style.display = meatVisible ? '' : 'none';
+
+    document.getElementById('noResult').classList.toggle('visible', visibleCount === 0);
+  }
+
+  function highlightText(card, term) {
+    removeHighlight(card);
+    if (!term) return;
+    const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const idx = node.nodeValue.toLowerCase().indexOf(term);
+      if (idx === -1) return;
+      const span = document.createElement('span');
+      span.innerHTML = escHtml(node.nodeValue).replace(
+        new RegExp('(' + escRegex(term) + ')', 'gi'),
+        '<mark>$1</mark>'
+      );
+      node.parentNode.replaceChild(span, node);
+    });
+  }
+
+  function removeHighlight(card) {
+    card.querySelectorAll('mark').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+    card.querySelectorAll('span[style=""]').forEach(s => {
+      if (s.children.length === 0) {
+        s.parentNode.replaceChild(document.createTextNode(s.textContent), s);
+      }
+    });
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function escRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+</script>
+</body>
+</html>
